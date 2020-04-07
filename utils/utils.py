@@ -839,13 +839,6 @@ def plot_one_box(x, img, color=None, label=None, line_thickness=None):
         cv2.rectangle(img, c1, c2, color, -1)  # filled
         cv2.putText(img, label, (c1[0], c1[1] - 2), 0, tl / 3, [225, 255, 255], thickness=tf, lineType=cv2.LINE_AA)
 
-def mosaic_one_box(xyxy, img, factor=30):
-    x, y, w, h = int(xyxy[0]), int(xyxy[1]), abs(int(xyxy[2] - xyxy[0])), abs(int(xyxy[3] - xyxy[1]))
-    box = img[y:y+h, x:x+w]
-    box = cv2.resize(box, (max(1, w//factor), max(1, h//factor)))
-    box = cv2.resize(box, (w, h), interpolation=cv2.INTER_AREA)
-    img[y:y+h, x:x+w] = box
-
 
 def plot_wh_methods():  # from utils.utils import *; plot_wh_methods()
     # Compares the two methods for width-height anchor multiplication
@@ -997,3 +990,11 @@ def plot_results(start=0, stop=0, bucket='', id=()):  # from utils.utils import 
     fig.tight_layout()
     ax[1].legend()
     fig.savefig('results.png', dpi=200)
+
+
+def mosaic_one_box(xyxy, img, mosaic_rate=30):
+    x, y, w, h = int(xyxy[0]), int(xyxy[1]), abs(int(xyxy[2] - xyxy[0])), abs(int(xyxy[3] - xyxy[1]))
+    box = img[y:y+h, x:x+w]
+    box = cv2.resize(box, (max(1, w//mosaic_rate), max(1, h//mosaic_rate)))
+    box = cv2.resize(box, (w, h), interpolation=cv2.INTER_AREA)
+    img[y:y+h, x:x+w] = box
