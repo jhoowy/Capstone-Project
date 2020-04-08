@@ -23,6 +23,29 @@ You can download COCO pretrained weights from [https://drive.google.com/open?id=
 
 Pretrained model only works for bottle class for now.
 
+# Docker
+
+**1. You need to change PROJECT_PATH in `run_docker.sh`** first. 
+
+```shell
+SERVER=10.0
+GPU=0
+SHMEMORY=16g
+PROJECT_PATH=/YOUR/PROJECT/PATH
+```
+
+**2. Build docker**
+
+```bash
+./build_docker.sh
+```
+
+**3. Run docker**
+
+```bash
+./run_docker.sh
+```
+
 # TODO
 
 ...
