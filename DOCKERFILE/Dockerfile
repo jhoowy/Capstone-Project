@@ -8,6 +8,9 @@ RUN pip install -U gsutil
 # RUN conda install -y -c anaconda future numpy opencv matplotlib tqdm pillow
 # RUN conda install -y -c conda-forge scikit-image tensorboard pycocotools
 
+# Install pytube
+RUN pip install pytube
+
 ## Install OpenCV with Gstreamer support
 #WORKDIR /usr/src
 #RUN pip uninstall -y opencv-python
@@ -35,10 +38,25 @@ WORKDIR /usr/src/app
 # Copy contents
 COPY . /usr/src/app
 
-# Copy weights
-#RUN python3 -c "from models import *; \
-#attempt_download('weights/yolov3.pt'); \
-#attempt_download('weights/yolov3-spp.pt')"
+WORKDIR /app
+
+######################################################################################################################
+################################################# INSTALLING FFMPEG ##################################################
+RUN apt-get update ; apt-get install -y git build-essential gcc make yasm autoconf automake cmake libtool checkinstall libmp3lame-dev pkg-config libunwind-dev zlib1g-dev libssl-dev
+
+RUN apt-get update \
+    && apt-get clean \
+    && apt-get install -y --no-install-recommends libc6-dev libgdiplus wget software-properties-common
+
+#RUN RUN apt-add-repository ppa:git-core/ppa && apt-get update && apt-get install -y git
+
+RUN wget https://www.ffmpeg.org/releases/ffmpeg-4.2.2.tar.gz
+RUN tar -xzf ffmpeg-4.2.2.tar.gz; rm -r ffmpeg-4.2.2.tar.gz
+RUN cd ./ffmpeg-4.2.2; ./configure --enable-gpl --enable-libmp3lame --enable-decoder=mjpeg,png --enable-encoder=png --enable-openssl --enable-nonfree
+
+
+RUN cd ./ffmpeg-4.2.2; make
+RUN  cd ./ffmpeg-4.2.2; make install
 
 WORKDIR /home
 

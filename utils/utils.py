@@ -993,6 +993,7 @@ def plot_results(start=0, stop=0, bucket='', id=()):  # from utils.utils import 
 
 
 def mosaic_one_box(xyxy, img, mosaic_rate=30):
+    # Mosaic result box
     x, y, w, h = int(xyxy[0]), int(xyxy[1]), abs(int(xyxy[2] - xyxy[0])), abs(int(xyxy[3] - xyxy[1]))
     box = img[y:y+h, x:x+w]
     box = cv2.resize(box, (max(1, w//mosaic_rate), max(1, h//mosaic_rate)))
