@@ -23,6 +23,11 @@ You can download COCO pretrained weights from [https://drive.google.com/open?id=
 
 Pretrained model only works for bottle class for now.
 
+'download_video.py' download youtube video and mosaic video
+```bash
+download_video.py "https://www.youtube.com/watch?v=YJZqi7LAW3E"
+```
+
 # Docker
 
 **1. You need to change PROJECT_PATH in `run_docker.sh`** first. 
