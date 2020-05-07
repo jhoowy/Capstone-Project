@@ -28,6 +28,12 @@ Pretrained model only works for bottle class for now.
 download_video.py "https://www.youtube.com/watch?v=YJZqi7LAW3E"
 ```
 
+Installation of pytube, streamlink is required for execution.
+```bash
+pip install pytube3
+pip install streamlink
+```
+
 # Docker
 
 **1. You need to change PROJECT_PATH in `run_docker.sh`** first. 
