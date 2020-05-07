@@ -25,7 +25,9 @@ Pretrained model only works for bottle class for now.
 
 `download_video.py` download youtube video and mosaic video
 - Video: `download_video.py "https://www.youtube.com/watch?v=YJZqi7LAW3E" "video"`
-- Streaming: `download_video.py "https://www.youtube.com/watch?v=YJZqi7LAW3E" "stream"`
+
+For streaming videos, the download does not stop until the streaming is finished, so you need to set an end time.
+- Streaming: `download_video.py "https://www.youtube.com/watch?v=YJZqi7LAW3E" "stream" 100`
 
 
 Installation of pytube, streamlink is required for execution.
