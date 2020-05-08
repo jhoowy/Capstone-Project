@@ -1,0 +1,90 @@
+body{
+    margin: 0px;
+    padding: 0px;
+}
+
+.topbar{
+    height: 56px;
+    width: 100%;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.logo{
+    margin-left: 96px;
+    height: 40px;
+    margin-top: 8px;
+}
+
+.upload-background{
+    margin-top: 80px;
+    width: 100%;
+    min-height: 480px;
+    background-image: url('../img/uploadarea_background.png');
+    background-repeat:no-repeat;
+    background-position-x: center;
+    padding-top: 100px;
+
+}
+
+.add_btn{
+    width: 120px;
+    height: 120px;
+    background-image: url('../img/add_button_normal.png');
+    background-repeat:no-repeat;
+    background-position: center center;
+    margin: 10px auto;
+}
+
+.add_btn:hover{
+    background-image: url('../img/add_button_onclick.png');
+}
+
+.upload_text{
+    margin-top: 32px;
+    background-image: url('../img/upload_text.png');
+    background-repeat:no-repeat;
+    background-position-x: center;
+    width: 100%;
+    min-height: 35px;
+}
+
+.upload_btn{
+    background-image: url('../img/upload_button_normal.png');
+    width: 120px;
+    height: 120px;
+    background-repeat:no-repeat;
+    background-position: center center;
+    margin-left: 20%;
+    display: inline-block;
+}
+
+.upload_btn:hover{
+    background-image: url('../img/upload_button_onclick.png');
+}
+
+.download_btn{
+    background-image: url('../img/download_button_normal.png');
+    width: 120px;
+    height: 120px;
+    background-repeat:no-repeat;
+    background-position: center center;
+    margin-left: 40%;
+    display: inline-block;
+}
+
+.download_btn:hover{
+    background-image: url('../img/download_button_onclick.png');
+}
+
+.op{
+    display: inline-block;
+    width: 100%;
+    height: 150px;
+}
+
+.succ{
+    text-align: center;
+    margin: auto;
+    display: none;
+    color: white;
+}

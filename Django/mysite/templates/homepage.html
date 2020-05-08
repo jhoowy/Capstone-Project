@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="static/css/style.css">
+        <script src="static/script/jquery-3.5.1.min.js"></script>
+    </head>
+    <body>
+        <div class="topbar">
+            <img src="static/img/logo.png" class="logo">
+        </div>
+        <div class="upload-background">
+            <!--Only can upload video files-->
+            <input type="file" name="uploadfile" id="btn_file" hidden='hidden' accept="*" value="">
+            <div class="add_btn" id='add'></div>
+            <div class='upload_text' id='texts'></div>
+            <div class="succ" id="succ"></div>
+        </div>
+        <div class="op">
+            <div id="upload" class='upload_btn'></div>
+            <div id="download" class="download_btn"></div>
+        </div>
+        <script>
+            var filename;
+            $('#add').click(function(){
+                $('#btn_file').click();
+            });
+            $('#upload').click(function(){
+                var myfile = $('#btn_file')[0].files[0];
+                var formdata = new FormData();
+                formdata.append('name',filename);
+                formdata.append('file',myfile)
+                $.ajax({
+                    url: 'upload',
+                    type: 'post',
+                    processData:false,
+                    contentType:false,
+                    data: formdata,
+                    success:function(data){
+                        console.log(data)
+                    }
+                })
+            });
+            $('#download').click(function(){
+                alert("Here write the download function");
+            })
+            $('#btn_file').on("change",function(){
+                var file = $('#btn_file').val(); 
+                var strFileName=file.replace(/^.+?\\([^\\]+?)(\.[^\.\\]*?)?$/gi,"$1");  
+                var FileExt=file.replace(/.+\./,""); 
+                $('#texts').hide();
+                var target = $("#succ");
+                filename = strFileName + '.' + FileExt;
+                target.html(filename);
+                $('#succ').show();
+            })
+        </script>
+    </body>
+</html>
