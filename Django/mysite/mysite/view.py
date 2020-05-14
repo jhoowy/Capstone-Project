@@ -11,3 +11,6 @@ def upload(request):
         for line in file:
             f.write(line)
     return HttpResponse('succed')#Here is just get the file from client to server, we can do the operation here.
+
+def login(request):
+    return render(request,'login.html')

@@ -19,4 +19,5 @@ from django.urls import path
 urlpatterns = [
     path('',view.homepage),
     path('upload',view.upload),
+    path('login',view.login),
 ]
