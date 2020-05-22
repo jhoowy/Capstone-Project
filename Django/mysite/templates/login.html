@@ -2,7 +2,8 @@
 <div class="container">
     <img src="static/img/login.png" class="logo">
 
-    <form action="">
+    <form method="POST" action="{% url 'login'%}">
+        {% csrf_token %}
         <br>
         <input name="username"type="text" value="Username">
         <br>
