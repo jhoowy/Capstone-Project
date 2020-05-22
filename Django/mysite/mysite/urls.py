@@ -15,10 +15,14 @@ Including another URLconf
 """
 from . import view
 from django.urls import path
+from django.conf import settings
+from django.conf.urls import url
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('',view.homepage, name="homepage"),
     path('upload',view.upload),
     path('login',view.login, name="login"),
     path('signup',view.signup, name="signup"),
-]
+    url(r'^edit/(?P<video_id>\w+)/$', view.edit, name='edit'),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Editor</title>
+	<script
+		src="/static/script/jquery-3.5.1.min.js">
+	</script>
+	<script src="/static/script/nouislider.min.js"></script>
+	<link rel="stylesheet" href="/static/css/edit_style.css">
+	<link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/themes/dot-luv/jquery-ui.css">
+	<link rel="stylesheet" href="/static/css/nouislider.min.css">
+</head>
+<body>
+
+<div id="resizable" class="ui-widget-content">
+	<video class="video" loop muted src="{{video_url}}"></video>
+	<canvas id="canv"></canvas>
+</div>
+
+<div class="hide_until_load hidden">
+	<span class="current_time"></span>
+	<div class="slider_wrapper">
+		<div id="slider"></div>
+		<div class="slider_time_pos"></div>
+	</div>
+	Start: <input type="number" class="slider_control" data-pos="0" value="0" title="Start" />
+	End: <input type="number" class="slider_control" data-pos="1" value="1" title="End" />
+	<button class='play_toggle' onClick="pause_toggle()">&#10074;&#10074;</button>
+	<label for="mute_toggle">Mute:</label><input type="checkbox" id="mute_toggle" checked />
+
+	<div class="ffmpeg">
+		ffmpeg -i in.mp4 -filter:v "crop=80:60:200:100" -c:a copy out.mp4
+	</div>
+
+	<input type="button" id="add_box" value="Add Box"/>
+	<input type="button" id="start_bluring" value="Start Bluring!"/>
+
+	<div class="ffmpeg_log">
+		Running FFmpeg in-browser is unstable, and may crash. It will not work on large files.
+		It may also take a while to get started, as it must download a large (26Mb) library to run.
+	</div>
+
+	<div class="download_links">
+
+	</div>
+</div>
+
+<script src="/static/script/control.js"></script>
+<script src="/static/script/ffmpeg/ffmpeg_runner.js"></script>
+</body>
+</html>
