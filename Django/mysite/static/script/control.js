@@ -84,10 +84,8 @@ $(function() {
 		}
 		function mmov(e, ele){
 			let delta = e.clientX - last_pos;
-			console.log('Delta:', delta);
 			last_pos = e.clientX;
 			let total_percent = (ele.offsetLeft+delta)/ele.parentElement.offsetWidth;
-			console.log(total_percent);
 			video.currentTime = video.duration * total_percent
 		}
 		document.onmousemove = (e)=>{mmov(e, ele)};
@@ -110,10 +108,17 @@ $(function() {
 	$("#start_bluring").click(() => {
 		$.ajax({
 			url:window.location.href,
-			dataType:'json',
 			type:'POST',
 			data: { 
 				data: JSON.stringify(box_list)
+			},
+			success: function () {
+				var href = window.location.href.split('/')
+				href.pop()
+				var fn = href.pop()
+				href = href.join('/') + "/download/" + fn
+
+				window.location.href = href;
 			}
 		})
 	});
