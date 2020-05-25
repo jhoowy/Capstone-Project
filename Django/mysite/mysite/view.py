@@ -35,7 +35,7 @@ def upload(request):
         for line in file:
             f.write(line)
 
-    video = Videos(video_id=video_id, file_name=file.name)
+    video = Videos(video_id=video_id, file_name=file.name, user=request.user)
     video.save()
 
     return HttpResponse('succeed. video_id : {}'.format(video_id)) #Here is just get the file from client to server, we can do the operation here.
@@ -88,6 +88,7 @@ def edit(request, video_id=None):
 
     video_url = settings.MEDIA_URL + video_id
 
+    # If client send blurring request
     if request.POST:
         data = json.loads(request.POST.get('data', ''))
         box_list = []

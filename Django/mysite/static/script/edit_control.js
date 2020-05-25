@@ -2,20 +2,19 @@ let video = document.querySelector(".video");
 const canvas = document.getElementById("canv");
 const ctx = canvas.getContext("2d");
 let slider = document.getElementById('slider');
+let box_body = document.querySelector(".box_body");
 
 let video_size = {'w': 0, 'h': 0};
 let filename = 'in.mp4';
 let time_start = 0;
 let time_end = 1;
 let crop = [null, null];
-let ffmpeg = null;
 let selected_file = null;
 let heap_limit = null;
 var box_list = [];
 
 $(function() {
 	console.log('Loaded DOM.');
-	ffmpeg = new FFMPEG(document.querySelector(".download_links"));
 	try{
 		heap_limit = performance.memory.jsHeapSizeLimit;
 		console.debug("Heap limit found:", heap_limit)
@@ -102,6 +101,21 @@ $(function() {
 		}
 	
 		box_list.push(data)
+		
+		let box_script = document.createElement("div");
+		let button = document.createElement("input");
+		button.type = "button";
+		button.value = "✖";
+		button.addEventListener("click", function() {
+			idx = box_list.indexOf(data);
+			if (idx > -1) box_list.splice(idx, 1);
+			box_script.remove()
+		});
+
+		box_script.innerHTML = box_to_text(data);
+		box_script.appendChild(button);
+		box_body.appendChild(box_script);
+
 		console.log('box added:', box_list.length);
 	});
 
@@ -187,34 +201,21 @@ function pause_toggle(){
 	}
 }
 
-function show_box_list(){
+function box_to_text(data) {
+	let box = data['box']
+	let time = data['time']
 
+	return ("x: "+box.x+", y: "+box.y+", w: "+box.w+", h: "+box.h+". Start: "+time[0]+", End: "+time[1]+"  ");
 }
 
-function build_ffmpeg_string(for_browser_run=false){
-	let ts = (time_start?time_start.toFixed(2):0);
-	let te = (time_end?time_end.toFixed(2):0);
-	let mpeg = for_browser_run?'': 'ffmpeg ';
-	mpeg+= '-ss '+ts+' -i "'+filename+'"';
-	if(for_browser_run && (!crop[0] || !crop[1])){
-		mpeg+=' -vf showinfo'
-	}
-	mpeg+=' -movflags faststart -t '+(te-ts).toFixed(4)+' ';
+function draw_box() {
 	if(crop[0] && crop[1]){
 		let rect = canvas.getBoundingClientRect();
 		let box = crop_box(crop, rect.width, rect.height);
 		ctx.strokeStyle="#FF0000";
 		ctx.strokeRect(box.x, box.y, box.w, box.h);
 		box = crop_box(crop, video_size.w, video_size.h);
-		mpeg+= '-filter:v "crop='+box.w+':'+box.h+':'+box.x+':'+box.y;
-		if(for_browser_run){
-			mpeg+=', showinfo';
-		}
-		mpeg+= '" ';
 	}
-	let fn = for_browser_run ? encodeURI(filename.replace(/\.[^/.]+$/, "")) : 'out';
-	mpeg+='-c:a copy '+fn+'.mp4';
-	return mpeg;
 }
 
 function update(){
@@ -230,11 +231,8 @@ function update(){
 	$(".current_time").text(video.currentTime.toFixed(2));
 	// noinspection JSCheckFunctionSignatures
 	ctx.drawImage(video, 0, 0, canvas.width, canvas.height); //TODO: Subimage using crop.
+	draw_box()
 
-	let mpeg = build_ffmpeg_string(false);
-	if($('.ffmpeg').text() !== mpeg) {
-		$('.ffmpeg').text(mpeg);
-	}
 	requestAnimationFrame(update.bind(this)); // Tell browser to trigger this method again, next animation frame.
 }
 

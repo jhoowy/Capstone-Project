@@ -76,7 +76,7 @@ input[type=checkbox]{
     width: 40px;
 }
 
-.ffmpeg {
+.box_body {
     vertical-align: middle;
     text-align: center;
     font-family: monospace;

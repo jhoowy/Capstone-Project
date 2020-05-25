@@ -29,24 +29,16 @@
 	<button class='play_toggle' onClick="pause_toggle()">&#10074;&#10074;</button>
 	<label for="mute_toggle">Mute:</label><input type="checkbox" id="mute_toggle" checked />
 
-	<div class="ffmpeg">
-		ffmpeg -i in.mp4 -filter:v "crop=80:60:200:100" -c:a copy out.mp4
+	<div class="box_body">
 	</div>
 
 	<input type="button" id="add_box" value="Add Box"/>
 	<input type="button" id="start_bluring" value="Start Bluring!"/>
 
-	<div class="ffmpeg_log">
-		Running FFmpeg in-browser is unstable, and may crash. It will not work on large files.
-		It may also take a while to get started, as it must download a large (26Mb) library to run.
 	</div>
 
-	<div class="download_links">
-
-	</div>
 </div>
 
-<script src="/static/script/control.js"></script>
-<script src="/static/script/ffmpeg/ffmpeg_runner.js"></script>
+<script src="/static/script/edit_control.js"></script>
 </body>
 </html>
