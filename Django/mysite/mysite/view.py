@@ -29,6 +29,21 @@ def homepage(request):
         return render(request, 'homepage.html', {"logs": label})
 
 
+def login(request):
+    if request.method == "POST":
+        username = request.POST["username"]
+        password = request.POST["password"]
+        user = auth.authenticate(request, username=username, password=password)
+        if user is not None:
+            auth.login(request, user)
+            request.session["username"] = username
+            return redirect("homepage")
+        else:
+            return render(request, 'login.html')
+    else:
+        return render(request, 'login.html')
+
+
 def upload(request):
     file = request.FILES.get('file')  # Got the file, it is binary, it can be operated directly
     formats = Path(file.name).suffix.lower()
@@ -47,21 +62,6 @@ def upload(request):
 
     return HttpResponse('succeed. video_id : {}'.format(
         video_id))  # Here is just get the file from client to server, we can do the operation here.
-
-
-def login(request):
-    if request.method == "POST":
-        username = request.POST["username"]
-        password = request.POST["password"]
-        user = auth.authenticate(request, username=username, password=password)
-        if user is not None:
-            auth.login(request, user)
-            request.session["username"] = username
-            return redirect("homepage")
-        else:
-            return render(request, 'login.html')
-    else:
-        return render(request, 'login.html')
 
 
 def signup(request):
