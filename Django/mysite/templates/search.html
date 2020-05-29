@@ -1,0 +1,71 @@
+<!-- {% load static %} -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Search on YouTube</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+    <!-- <link rel="stylesheet" href="{% static 'css/search.css' %}"> -->
+    <link rel="stylesheet" href="../static/css/search.css">
+    <!-- <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="style/login-style.css"> -->
+
+</head>
+
+<body>
+    <div class="loader"></div>
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-1 ">
+                <!-- <img class="img-responsive logo" src="https://www.youtube.com/yt/brand/media/image/YouTube-icon-full_color.png" width="100" height="100"/> -->
+            </div>
+            <div class="col-md-5">
+                <h1>Search on YouTube</h1>
+            </div>
+            <div class="col-md-5">
+                <div class="input-group">
+                    <input id="query" type="text" class="form-control" placeholder="Search for a video">
+                    <span class="input-group-btn">
+                        <button id="search-button" onclick="keyWordsearch()" class="btn btn-success"
+                            type="button">Go!</button>
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-1">
+                <!-- <button class="btn-logout btn btn-danger"><span class="glyphicon glyphicon-off"></span> Logout</button> -->
+            </div>
+        </div>
+        <div class="wrapper">
+            <div id="list"></div>
+        </div>
+        <!-- <div class="row">
+
+            <div class="col-md-12">
+                <div id="results" style="display:grid;"></div>
+            </div>
+        </div> -->
+
+        <div class="pagination">
+            <!-- <div class="col-md12 pull-right nextpr"> -->
+            <div>
+                <button type="button" class="btn btn-success" id="prev" style="position: fixed; bottom: 50px; right: 8.5rem; background-color:#0079B8;" onclick="prevB()" class="btn btn-danger">Previous</button>
+                <button type="button" class="btn btn-success" id="next" style="position: fixed; bottom: 50px; right: 3rem;" onclick="nextB()" class="btn btn-danger">Next</button>
+            </div>
+        </div>
+    </div>
+    <!-- need to load static files here -->
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="../static/script/search.js"></script>
+    <script src="https://apis.google.com/js/client.js?onload=googleApiClientReady">
+    </script>
+    <!-- <script src="script/login-script.js"></script> -->
+</body>
+
+</html>
