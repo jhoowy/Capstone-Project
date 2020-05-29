@@ -9,6 +9,8 @@
 <body>
     <div class="topbar">
         <img src="static/img/logo.png" class="logo"> {{ logs|safe }}
+        <img src="static/img/login_img.png" class="logo" onclick="location.href='/login'">
+        <img src="static/img/signup.png" class="logo" onclick="location.href='/signup'">
         <!--
             If user login, the session will be set and here will some the welcome back and logout button
             If user not login, the session doesn't exist, and here will show the login and sign up buttons.
