@@ -10,6 +10,7 @@ RUN pip install -U gsutil
 
 # Install pytube
 RUN pip install pytube
+RUN pip install django
 
 ## Install OpenCV with Gstreamer support
 #WORKDIR /usr/src

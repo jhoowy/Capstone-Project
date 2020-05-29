@@ -1,14 +1,32 @@
 {% block content %}
+<head>
+    <link rel="stylesheet" href="static/css/style.css">
+    <script src="static/script/jquery-3.5.1.min.js"></script>
+</head>
+<div class="topbar">
+    <img src="static/img/logo.png" class="logo" onclick="location.href='/'">
+</div>
 <div class="container">
-    <img src="static/img/login.png" class="logo">
+    
+    <img src="static/img/login.png" class='login'>
 
-    <form action="">
+    <form method="POST" action="{% url 'login'%}">
+        {% csrf_token %}
         <br>
+<<<<<<< HEAD
         <input name="username" type="text" value="Username">
+=======
+        <input name="username" type="text" placeholder="Username" class='logininput'>
+>>>>>>> cd2843143ac484b14801ef76dc6c4d667e0d502c
         <br>
-        <input name="password" type="password" value="Password">
+        <input name="password" type="password" placeholder="Password" class='logininput' autocomplete='off'>
         <br><br>
+<<<<<<< HEAD
         <input type="submit" class="btn btn-primary" value="login">
+=======
+        <input type="submit" class="loginbtn" value="login">
+>>>>>>> cd2843143ac484b14801ef76dc6c4d667e0d502c
     </form>
+    <p>Or click<a href="{% url 'signup'%}" style='text-decoration:none'> Here</a> to sign up!</p>
 </div>
 {% endblock %}

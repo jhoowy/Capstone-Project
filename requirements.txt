@@ -8,6 +8,7 @@ tqdm
 pillow
 pytube
 streamlink
+Django
 
 
 # Nvidia Apex (optional) for mixed precision training --------------------------
