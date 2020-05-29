@@ -8,17 +8,11 @@
 
 <body>
     <div class="topbar">
-        <img src="static/img/logo.png" class="logo">
-<<<<<<< HEAD
-        <img src="static/img/login.png" class="logo" onclick="location.href='/login'">
-
-=======
-        {{ logs|safe }}
+        <img src="static/img/logo.png" class="logo"> {{ logs|safe }}
         <!--
             If user login, the session will be set and here will some the welcome back and logout button
             If user not login, the session doesn't exist, and here will show the login and sign up buttons.
         -->
->>>>>>> cd2843143ac484b14801ef76dc6c4d667e0d502c
     </div>
     <div class="upload-background">
         <!--Only can upload video files-->
@@ -29,16 +23,6 @@
     </div>
     <div class="op">
         <div id="upload" class='upload_btn'></div>
-<<<<<<< HEAD
-        <div id="download" class="download_btn" id="GetFile"></div>
-    </div>
-    <script>
-        var filename;
-        $('#add').click(function () {
-            $('#btn_file').click();
-        });
-        $('#upload').click(function () {
-=======
         <div id="download" class="download_btn"></div>
     </div>
     {{ uservideos|safe }}
@@ -52,52 +36,31 @@
             $('#btn_file').click();
         });
         $('#upload').click(function() {
->>>>>>> cd2843143ac484b14801ef76dc6c4d667e0d502c
             var myfile = $('#btn_file')[0].files[0];
             var formdata = new FormData();
             formdata.append('name', filename);
             formdata.append('file', myfile)
             $.ajax({
                 url: 'upload',
-<<<<<<< HEAD
-                type: 'POST',
-                processData: false,
-                contentType: false,
-                data: formdata,
-                async: true,
-                success: function (data) {
-=======
                 type: 'post',
                 processData: false,
                 contentType: false,
                 data: formdata,
                 success: function(data) {
->>>>>>> cd2843143ac484b14801ef76dc6c4d667e0d502c
                     console.log(data)
                 }
             })
         });
-<<<<<<< HEAD
-        $('#download').click(function () {
-            // alert("Here write the download function");
-            // 수정중 - media 에서 다운받게 하기
-            $.ajax({    
-=======
         $('#download').click(function() {
             // alert("Here write the download function");
             // 수정중 - media 에서 다운받게 하기
             $.ajax({
->>>>>>> cd2843143ac484b14801ef76dc6c4d667e0d502c
                 url: 'upload',
                 method: 'GET',
                 xhrFields: {
                     responseType: 'blob'
                 },
-<<<<<<< HEAD
-                success: function (data) {
-=======
                 success: function(data) {
->>>>>>> cd2843143ac484b14801ef76dc6c4d667e0d502c
                     var a = document.createElement('a');
                     var url = window.URL.createObjectURL(data);
                     a.href = url;
@@ -109,11 +72,7 @@
                 }
             });
         });
-<<<<<<< HEAD
-        $('#btn_file').on("change", function () {
-=======
         $('#btn_file').on("change", function() {
->>>>>>> cd2843143ac484b14801ef76dc6c4d667e0d502c
             var file = $('#btn_file').val();
             var strFileName = file.replace(/^.+?\\([^\\]+?)(\.[^\.\\]*?)?$/gi, "$1");
             var FileExt = file.replace(/.+\./, "");

@@ -47,12 +47,6 @@ def upload(request):
     return HttpResponse('succeed. video_id : {}'.format(video_id)) #Here is just get the file from client to server, we can do the operation here.
 
 def login(request):
-<<<<<<< HEAD
-    return render(request,'login.html')
-
-def search(request):
-    return render(request,'search.html')
-=======
     if request.method == "POST":
         username = request.POST["username"]
         password = request.POST["password"]
@@ -124,4 +118,6 @@ def edit(request, video_id=None):
 def logout(request):
     request.session.flush()
     return redirect("homepage")
->>>>>>> cd2843143ac484b14801ef76dc6c4d667e0d502c
+
+def search(request):
+    return render(request,'search.html')

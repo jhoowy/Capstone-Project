@@ -16,26 +16,17 @@ Including another URLconf
 from . import view
 from django.contrib import admin
 from django.urls import path
-<<<<<<< HEAD
-from django.urls import include #
-=======
 from django.conf import settings
 from django.conf.urls import url
 from django.conf.urls.static import static
->>>>>>> cd2843143ac484b14801ef76dc6c4d667e0d502c
 
 urlpatterns = [
     path('',view.homepage, name="homepage"),
     path('upload',view.upload),
-<<<<<<< HEAD
-    path('login',view.login),
-    path('search',view.search),
-]
-=======
     path('login',view.login, name="login"),
     path('signup',view.signup, name="signup"),
     path('logout',view.logout),
+    path('search',view.search),
     url(r'^edit/download/(?P<video_id>\w+)/$', view.edit_download, name='edit'),
     url(r'^edit/(?P<video_id>\w+)/$', view.edit, name='edit'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
->>>>>>> cd2843143ac484b14801ef76dc6c4d667e0d502c
