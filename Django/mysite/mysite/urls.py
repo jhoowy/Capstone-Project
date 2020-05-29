@@ -24,6 +24,7 @@ urlpatterns = [
     path('upload',view.upload),
     path('login',view.login, name="login"),
     path('signup',view.signup, name="signup"),
+    path('logout',view.logout),
     url(r'^edit/download/(?P<video_id>\w+)/$', view.edit_download, name='edit'),
     url(r'^edit/(?P<video_id>\w+)/$', view.edit, name='edit'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

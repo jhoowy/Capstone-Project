@@ -9,8 +9,11 @@
 <body>
     <div class="topbar">
         <img src="static/img/logo.png" class="logo">
-        <img src="static/img/login.png" class="logo" onclick="location.href='/login'">
-
+        {{ logs|safe }}
+        <!--
+            If user login, the session will be set and here will some the welcome back and logout button
+            If user not login, the session doesn't exist, and here will show the login and sign up buttons.
+        -->
     </div>
     <div class="upload-background">
         <!--Only can upload video files-->
@@ -23,6 +26,11 @@
         <div id="upload" class='upload_btn'></div>
         <div id="download" class="download_btn"></div>
     </div>
+    {{ uservideos|safe }}
+    <!--Here is the div which show the videos which user has.
+    Here I got some hard which how to show the video, we need a git or picture to some the brief introduction of every videos, so how to deal with the upload videos is very important now.
+    The Details can be found on youtube, every videos has there own brief introduction picture or git.
+    -->
     <script>
         var filename;
         $('#add').click(function() {

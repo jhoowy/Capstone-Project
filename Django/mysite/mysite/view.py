@@ -20,7 +20,13 @@ vid_formats = ['.mp4', '.avi', '.mpg', '.mpeg', '.wmv']
 
  
 def homepage(request):
-    return render(request,'homepage.html')
+    username = request.session.get('username')
+    if username is not None:
+        label = "<a class='loginlogo' href='/logout'>Logout</a><a class='loginlogo' href='/'>Welcome Back "+username+" !   </a>"
+        return render(request,'homepage.html',{"logs":label})
+    else:
+        label = "<a class='loginlogo' href='/signup'>Sign Up</a><a class='loginlogo' href='/login'>Login</a>"
+        return render(request,'homepage.html',{"logs":label})
 
 def upload(request):
     file = request.FILES.get('file') # Got the file, it is binary, it can be operated directly
@@ -47,6 +53,7 @@ def login(request):
         user = auth.authenticate(request, username=username, password=password)
         if user is not None:
             auth.login(request, user)
+            request.session["username"] = username
             return redirect("homepage")
         else:
             return render(request, 'login.html')
@@ -107,3 +114,7 @@ def edit(request, video_id=None):
         return HttpResponse('')
 
     return render(request, 'edit.html', {'video_url' : video_url})
+
+def logout(request):
+    request.session.flush()
+    return redirect("homepage")
