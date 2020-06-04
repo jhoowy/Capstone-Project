@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="/static/css/process_style.css">
+    <script src="/static/script/jquery-3.5.1.min.js"></script>
+</head>
+
+<body>
+    <div class="topbar">
+        <img src="/static/img/logo.png" class="logo">
+    </div>
+
+    <div id="resizable">
+        <video class="video" controls src="{{video_url}}"></video>
+    </div>
+
+    <div class="op" align="center">
+        <button id="process" class='process_btn'>Blur it!</button>
+        <div class="loading-container hidden">
+            <div class="loading"></div>
+            <div id="loading-text">processing</div>
+        </div>
+    </div>
+    {{ uservideos|safe }}
+    <!--Here is the div which show the videos which user has.
+    Here I got some hard which how to show the video, we need a git or picture to some the brief introduction of every videos, so how to deal with the upload videos is very important now.
+    The Details can be found on youtube, every videos has there own brief introduction picture or git.
+    -->
+    <script>
+        let is_processing = false;
+
+        $('#process').click(function() {
+            $('.process_btn').prop('disabled', true);
+            $('.process_btn').addClass('hidden');
+            $('.loading-container').removeClass('hidden');
+            setTimeout(polling(), 1000);
+        });
+
+        function polling() {
+            is_processing = true;
+            $.ajax({
+                url: '/process/download/{{vid}}',
+                type: 'GET',
+                success: function(data) {
+                    if (data == 'OK') {
+                        window.location.href = '/edit/{{vid}}';
+                        console.log(data)
+                    }
+                    else
+                        setTimeout(polling(), 1000);
+                },
+                error: function() {
+                    is_processing = false;
+                    $('.process_btn').prop('disabled', false);
+                    $('.loading-container').addClass('hidden');
+                    $('.process_btn').removeClass('hidden');
+                }
+            })
+        }
+
+    </script>
+</body>
+
+</html>

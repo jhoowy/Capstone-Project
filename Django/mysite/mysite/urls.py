@@ -27,6 +27,8 @@ urlpatterns = [
     path('signup',view.signup, name="signup"),
     path('logout',view.logout),
     path('search',view.search),
+    url(r'^process/(?P<video_id>\w+)/$', view.process, name='process'),
+    url(r'^process/download/(?P<video_id>\w+)/$', view.process_download, name='edit'),
     url(r'^edit/download/(?P<video_id>\w+)/$', view.edit_download, name='edit'),
     url(r'^edit/(?P<video_id>\w+)/$', view.edit, name='edit'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

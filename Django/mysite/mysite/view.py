@@ -1,3 +1,4 @@
+from __future__ import absolute_import, unicode_literals
 from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
@@ -6,6 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib import auth
 from video.models import Videos
 from mysite.utils.utils import *
+from celery import shared_task
 
 from pathlib import Path
 
@@ -15,8 +17,9 @@ import json
 import numpy as np
 import cv2
 import mimetypes
+import subprocess
 
-vid_formats = ['.mp4', '.avi', '.mpg', '.mpeg', '.wmv']
+vid_formats = ['.mp4', '.avi', '.mov']
 
 
 def homepage(request):
@@ -46,22 +49,25 @@ def login(request):
 
 def upload(request):
     file = request.FILES.get('file')  # Got the file, it is binary, it can be operated directly
-    formats = Path(file.name).suffix.lower()
+    formats = os.path.splitext(file.name)[-1].lower()
 
     if formats not in vid_formats:
         return HttpResponse('Failed to upload : Invalid extension')
 
     video_id = secrets.token_hex(4)
 
-    with open(os.path.join(settings.MEDIA_ROOT, video_id), 'wb') as f:
+    with open(os.path.join(settings.MEDIA_ROOT, video_id + formats), 'wb') as f:
         for line in file:
             f.write(line)
 
-    video = Videos(video_id=video_id, file_name=file.name, user=request.user)
+    cap = cv2.VideoCapture(os.path.join(settings.MEDIA_ROOT, video_id + formats))
+    fps = cap.get(cv2.CAP_PROP_FPS)
+    cap.release()
+
+    video = Videos(video_id=video_id, total_frame=fps, file_name=file.name, user=request.user)
     video.save()
 
-    return HttpResponse('succeed. video_id : {}'.format(
-        video_id))  # Here is just get the file from client to server, we can do the operation here.
+    return HttpResponse('{}'.format(video_id))  # Here is just get the file from client to server, we can do the operation here.
 
 
 def signup(request):
@@ -75,13 +81,75 @@ def signup(request):
     return render(request, "signup.html")
 
 
-def edit_download(request, video_id):
+def process(request, video_id=None):
+    username = request.session.get('username')
+    if username is not None:
+        if video_id is None:
+            return HttpResponse("No Video")
+
+        try:
+            video_object = get_object_or_404(Videos, pk=video_id)
+        except Videos.DoesNotExist:
+            return HttpResponse("Video id doesn't exists.")
+
+        video_path = video_object.get_path()
+        video_url = settings.MEDIA_URL + video_path
+
+        return render(request, 'process.html', {'video_url': video_url, 'vid': video_id})
+    else:
+        return render(request, 'login.html')
+
+def process_download(request, video_id=None):
     try:
         video_object = get_object_or_404(Videos, pk=video_id)
     except Videos.DoesNotExist:
         return HttpResponse("Video id doesn't exists.")
 
-    path = os.path.join(settings.MEDIA_ROOT, video_object.file_name)
+    if video_object.processed:
+        if video_object.progress_time == video_object.total_frame:
+            video_url = settings.MEDIA_URL + 'processed/' + video_id
+            return HttpResponse('OK')
+        return HttpResponse('')
+    else:
+        print("PROCESS START")
+        video_object.processed = True
+        video_object.save()
+        process_video(video_object)
+        return HttpResponse('')
+
+
+@shared_task
+def process_video(video):
+    print("start")
+    video_path = os.path.join(settings.MEDIA_ROOT, video.get_path())
+    output_path = os.path.join(settings.MEDIA_ROOT, 'processed')
+
+    '''
+    TODO
+    Update video's progress time
+    '''
+
+    video.progress_time = 0
+    video.save()
+
+    subprocess.call(['python3', 'YOLOv3/detect.py', '--cfg', 'YOLOv3/cfg/yolov3-spp-3cls-custom.cfg',
+                 '--weights', 'YOLOv3/weights/best.pt',
+                 '--names', 'YOLOv3/data/inapp_obj.names',
+                 '--source', video_path,
+                 '--output', output_path
+                 ])
+    
+    video.progress_time = video.total_frame
+    video.save()
+
+
+def edit_download(request, video_id):
+    try:
+        video_object = get_object_or_404(Videos, pk=video_id)
+    except Videos.DoesNotExist:
+        return HttpResponse("Video id doesn't exists.")
+    
+    path = os.path.join(settings.MEDIA_ROOT, 'edited', video_object.get_path())
     with open(path, 'rb') as f:
         mime_type, _ = mimetypes.guess_type(path)
         response = HttpResponse(f.read(), content_type=mime_type)
@@ -99,8 +167,16 @@ def edit(request, video_id=None):
             video_object = get_object_or_404(Videos, pk=video_id)
         except Videos.DoesNotExist:
             return HttpResponse("Video id doesn't exists.")
+        
+        v_path = video_object.get_path()
 
-        video_url = settings.MEDIA_URL + video_id
+        if video_object.processed:
+            video_url = settings.MEDIA_URL + 'processed/' + v_path
+            video_path = os.path.join(settings.MEDIA_ROOT, 'processed', v_path)
+        else:
+            video_url = settings.MEDIA_URL + v_path
+            video_path = os.path.join(settings.MEDIA_ROOT, v_path)   
+        save_path = os.path.join(settings.MEDIA_ROOT, 'edited', v_path)
 
         # If client send blurring request
         if request.POST:
@@ -115,8 +191,7 @@ def edit(request, video_id=None):
                 te = 1000 * float(data[i]['time'][1])
                 box_list.append([x, y, w, h, ts, te])
 
-            save_path = os.path.join(settings.MEDIA_ROOT, video_object.file_name)
-            mosaic_video(os.path.join(settings.MEDIA_ROOT, video_object.video_id), save_path, box_list)
+            mosaic_video(video_path, save_path, box_list)
 
             return HttpResponse('')
 
