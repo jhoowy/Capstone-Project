@@ -9,6 +9,7 @@ pillow
 pytube
 streamlink
 Django
+celery
 
 
 # Nvidia Apex (optional) for mixed precision training --------------------------

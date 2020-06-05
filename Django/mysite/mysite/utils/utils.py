@@ -67,7 +67,7 @@ def add_audio(source, out):
     temp_path = str(Path(temp_folder) / Path(source).name)
     os.rename(out, temp_path)
 
-    p = subprocess.Popen(['ffmpeg', '-y', '-i', source, '-i', temp_path, '-c', 'copy', '-map', '1:v:0', '-map', '0:a:0', out], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    p = subprocess.Popen(['ffmpeg', '-y', '-i', source, '-i', temp_path, '-c:v', 'libx264', '-c:a', 'copy', '-map', '1:v:0', '-map', '0:a:0', out], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     p_out, err = p.communicate()
     exitcode = p.returncode
     if exitcode != 0:

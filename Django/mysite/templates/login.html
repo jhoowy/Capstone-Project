@@ -1,15 +1,15 @@
 {% block content %}
 
 <head>
-    <link rel="stylesheet" href="static/css/style.css">
-    <script src="static/script/jquery-3.5.1.min.js"></script>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="/static/script/jquery-3.5.1.min.js"></script>
 </head>
 <div class="topbar">
-    <img src="static/img/logo.png" class="logo" onclick="location.href='/'">
+    <img src="/static/img/logo.png" class="logo" onclick="location.href='/'">
 </div>
 <div class="container">
 
-    <img src="static/img/login.png" class='login'>
+    <img src="/static/img/login_img.png" class='login'>
 
     <form method="POST" action="{% url 'login'%}">
         {% csrf_token %}

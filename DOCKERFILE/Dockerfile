@@ -11,6 +11,7 @@ RUN pip install -U gsutil
 # Install pytube
 RUN pip install pytube
 RUN pip install django
+RUN pip install celery[redis]
 
 ## Install OpenCV with Gstreamer support
 #WORKDIR /usr/src
@@ -41,9 +42,17 @@ COPY . /usr/src/app
 
 WORKDIR /app
 
+# Install Redis.
+RUN \
+  wget http://download.redis.io/redis-stable.tar.gz && \
+  tar xvzf redis-stable.tar.gz && \
+  cd redis-stable && \
+  make && \
+  make install
+
 ######################################################################################################################
 ################################################# INSTALLING FFMPEG ##################################################
-RUN apt-get update ; apt-get install -y git build-essential gcc make yasm autoconf automake cmake libtool checkinstall libmp3lame-dev pkg-config libunwind-dev zlib1g-dev libssl-dev
+RUN apt-get update ; apt-get install -y git build-essential gcc make yasm autoconf automake cmake libtool checkinstall libmp3lame-dev pkg-config libunwind-dev zlib1g-dev libssl-dev libx264-dev
 
 RUN apt-get update \
     && apt-get clean \
@@ -53,7 +62,7 @@ RUN apt-get update \
 
 RUN wget https://www.ffmpeg.org/releases/ffmpeg-4.2.2.tar.gz
 RUN tar -xzf ffmpeg-4.2.2.tar.gz; rm -r ffmpeg-4.2.2.tar.gz
-RUN cd ./ffmpeg-4.2.2; ./configure --enable-gpl --enable-libmp3lame --enable-decoder=mjpeg,png --enable-encoder=png --enable-openssl --enable-nonfree
+RUN cd ./ffmpeg-4.2.2; ./configure --enable-gpl --enable-libmp3lame --enable-decoder=mjpeg,png --enable-encoder=png --enable-openssl --enable-nonfree --enable-libx264
 
 
 RUN cd ./ffmpeg-4.2.2; make
