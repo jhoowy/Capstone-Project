@@ -1,0 +1,3 @@
+myvenv/
+mysite/templates/upload.html
+mysite/templates/upload_parser.php
