@@ -1,24 +1,61 @@
 {% block contents %}
+{% load staticfiles %}
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'css/modern-business.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="static/css/style.css">
     <script src="static/script/jquery-3.5.1.min.js"></script>
 </head>
-<div class="topbar">
-    <img src="static/img/logo.png" class="logo" onclick="location.href='/'">
-</div>
-<div class="container">
-    <h1>Sign Up Now!</h1>
+<body>
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="/">Auto Blurring Service</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href='/search'>Search</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href='/signup'>Sign up</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href='/login'>Login</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="topbar">
+  </div>
+    <div class="container">
+        <img src="/static/img/signup.png" class='login'>
 
-    <form method="POST" action="{%url 'signup'%}">
-        {% csrf_token %}
-        <br>
-        <input name="username"type="text" placeholder="Username" class='logininput'>
-        <br>
-        <input name="password1" type="password" placeholder="Password" class='logininput'>
-        <br>
-        <input name="password2" type="password" placeholder="Confirm Password" class='logininput'>
-        <br><br>
-        <input type="submit" class="loginbtn" value="sign up">
-    </form>
-</div>
+        <form method="POST" action="{%url 'signup'%}">
+            {% csrf_token %}
+            <br>
+            <input name="username"type="text" placeholder="Username" class='logininput'>
+            <br>
+            <input name="password1" type="password" placeholder="Password" class='logininput'>
+            <br>
+            <input name="password2" type="password" placeholder="Confirm Password" class='logininput'>
+            <br><br>
+            <input type="submit" class="loginbtn" value="sign up">
+        </form>
+    </div>
+  <!-- Footer -->
+  <footer class="py-5 bg-dark fixed-bottom">
+    <!-- /.container -->
+  </footer>
+</body>
 {% endblock %}

@@ -29,7 +29,7 @@ def homepage(request):
         return render(request, 'homepage.html', {"logs": label})
     else:
         label = "<a class='loginlogo' href='/search'>Search</a><a class='loginlogo' href='/signup'>Sign Up</a><a class='loginlogo' href='/login'>Login</a>"
-        return render(request, 'homepage.html', {"logs": label})
+        return render(request, 'homepage_login.html', {"logs": label})
 
 
 def login(request):
@@ -40,7 +40,7 @@ def login(request):
         if user is not None:
             auth.login(request, user)
             request.session["username"] = username
-            return redirect("homepage")
+            return redirect(homepage)
         else:
             return render(request, 'login.html')
     else:
@@ -202,7 +202,7 @@ def edit(request, video_id=None):
 
 def logout(request):
     request.session.flush()
-    return redirect("homepage")
+    return render(request, 'homepage_login.html')
 
 
 def search(request):
