@@ -1,6 +1,7 @@
 body{
     margin: 0px;
     padding: 0px;
+    padding-top: 70px;
 }
 
 .topbar{
@@ -124,4 +125,8 @@ body{
 
 .loginlogo:hover{
     color: black;
+}
+
+.nav{
+    height = 56px;
 }
