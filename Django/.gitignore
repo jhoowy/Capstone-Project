@@ -1,3 +1,10 @@
 myvenv/
-mysite/templates/upload.html
-mysite/templates/upload_parser.php
+mysite/mysite/templates/upload.html
+mysite/mysite/templates/upload_parser.php
+db.sqlite3
+ 
+# temporary files
+*.log
+*.pot
+*.pyc
+__pycache__/
