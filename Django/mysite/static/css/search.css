@@ -9,6 +9,11 @@ body {
 
 p {
     margin: 5px 0;
+    /* text-align: start; */
+}
+
+.videoItem p {
+    text-align: start;
 }
 
 a {

@@ -18,6 +18,8 @@ import numpy as np
 import cv2
 import mimetypes
 import subprocess
+import pytube
+import sys
 
 vid_formats = ['.mp4', '.avi', '.mov']
 
@@ -209,5 +211,39 @@ def search(request):
     username = request.session.get('username')
     if username is not None:
         return render(request, 'search.html')
+    else:
+        return render(request, 'login.html')
+
+def search_download(request, vidId):  
+    yt = pytube.YouTube("https://www.youtube.com/watch?v=" + vidId)  # 다운받을 동영상 URL 지정
+            
+    vids = yt.streams.all()
+
+    '''
+    for i in range(len(vids)):
+        print(i, '. ', vids[i])
+    '''
+    vnum = 0
+
+    parent_dir = "../media/"
+    vids[vnum].download(parent_dir)  # 다운로드 수행
+
+    print(vids[vnum].default_filename)
+    default_filename = vids[vnum].default_filename
+
+    new_filename = "output_video.mp4"
+
+    subprocess.call(['python', 'detect.py', '--cfg', 'cfg/yolov3-spp.cfg',
+                    '--weights', 'weights/yolov3-spp-ultralytics.pt',
+                    '--source', default_filename
+                    ])
+
+    # subprocess.call(["rm", url_link, "best", "-o", "output_stream.mp4"], timeout = 10)
+    return HttpResponse('')
+
+def mypage(request):
+    username = request.session.get('username')
+    if username is not None:
+        return render(request, 'mypage.html')
     else:
         return render(request, 'login.html')

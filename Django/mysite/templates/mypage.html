@@ -35,22 +35,39 @@
                     <li class="nav-item">
                         <a class="nav-link" href='/logout'>Logout</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href='/mypage'>My Page</a>
-                    </li>
                 </ul>
             </div>
         </div>
     </nav>
-    <div class="upload-background">
-        <!--Only can upload video files-->
-        <input type="file" name="uploadfile" id="btn_file" hidden='hidden' accept="*" value="">
-        <div class="add_btn" id='add'></div>
-        <div class='upload_text' id='texts'></div>
-        <div class="succ" id="succ"></div>
-    </div>
-    <div class="op" align="center">
-        <div id="upload" class='upload_btn'></div>
+    <h1 style="margin-left: 10rem;">My page</h1>
+    <div style="padding:10px; width: 70rem; margin: 0 auto;">
+        <div class="container" style="width: 90%;">
+            <div>
+                <table class="table">
+                    <thead></thead>
+                    <tbody>
+                        <tr>
+                            <td style="text-align: left;">
+                                <h4>User ID : {{user.username}}</h4>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;">
+                                <h4>My Videos</h4>
+                            </td>
+                            <!-- ToDo: model 구현하기 -->
+                            <td>{% for x in user.vids.all %} {{x.name}}/ {% endfor %}</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <br>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
     {{ uservideos|safe }}
     <!--Here is the div which show the videos which user has.
@@ -58,44 +75,7 @@
   The Details can be found on youtube, every videos has there own brief introduction picture or git.
   -->
     <script>
-        var filename;
-        $('#add').click(function() {
-            $('#btn_file').click();
-        });
-        $('#upload').click(function() {
-            var myfile = $('#btn_file')[0].files[0];
-            var formdata = new FormData();
-            formdata.append('name', filename);
-            formdata.append('file', myfile)
-            $.ajax({
-                url: 'upload',
-                type: 'post',
-                processData: false,
-                contentType: false,
-                data: formdata,
-                success: function(data) {
-                    var href = window.location.href.trim().split('/')
-                    href = href.join('/') + "process/" + data
-
-                    window.location.href = href;
-                    console.log(data)
-                }
-            })
-        });
-        $('#btn_file').on("change", function() {
-            var file = $('#btn_file').val();
-            var strFileName = file.replace(/^.+?\\([^\\]+?)(\.[^\.\\]*?)?$/gi, "$1");
-            var FileExt = file.replace(/.+\./, "");
-            $('#texts').hide();
-            var target = $("#succ");
-            filename = strFileName + '.' + FileExt;
-            target.html(filename);
-            $('#succ').show();
-        })
     </script>
-
-
-
 
     <!-- Bootstrap core JavaScript -->
     <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>

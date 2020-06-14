@@ -19,3 +19,5 @@ class Videos(models.Model):
     def get_path(self):
         formats = os.path.splitext(self.file_name)[-1].lower()
         return self.video_id + formats
+
+     
