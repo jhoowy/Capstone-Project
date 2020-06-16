@@ -50,15 +50,21 @@
                             <td style="text-align: left;">
                                 <h4>User ID : {{user.username}}</h4>
                             </td>
-                            <td></td>
+                            <td></td><td></td>
                         </tr>
                         <tr>
                             <td style="text-align: left;">
                                 <h4>My Videos</h4>
                             </td>
-                            <!-- ToDo: model 구현하기 -->
-                            <td>{% for x in user.vids.all %} {{x.name}}/ {% endfor %}</td>
+                            <td></td><td></td>
                         </tr>
+                        {% for v in video_list %}
+                            <tr>
+                                <td style="text-align: left;">{{v.file_name}}</td>
+                                <td><a href="/edit/{{v.video_id}}">Edit</a></td>
+                                <td><a href="/process/{{v.video_id}}">Process</a></td>
+                            </tr>
+                        {% endfor %}
                         <tr>
                             <td></td>
                             <td></td>

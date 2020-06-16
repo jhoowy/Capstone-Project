@@ -9,7 +9,7 @@ RUN pip install -U gsutil
 # RUN conda install -y -c conda-forge scikit-image tensorboard pycocotools
 
 # Install pytube
-RUN pip install pytube
+RUN pip install pytube3
 RUN pip install django
 RUN pip install celery[redis]
 

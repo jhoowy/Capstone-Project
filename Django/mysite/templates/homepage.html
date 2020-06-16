@@ -48,9 +48,14 @@
         <div class="add_btn" id='add'></div>
         <div class='upload_text' id='texts'></div>
         <div class="succ" id="succ"></div>
+        <div class="url_input"><input type="url" id="url" placeholder="... or enter YouTube link here."></div>
     </div>
-    <div class="op" align="center">
-        <div id="upload" class='upload_btn'></div>
+    <div class="op" align="center" style="margin-top: 32px;">
+        <button id="upload" class='process_btn'>Upload</button>
+        <div class="loading-container hidden">
+            <div class="loading"></div>
+            <div id="loading-text">uploading</div>
+        </div>
     </div>
     {{ uservideos|safe }}
     <!--Here is the div which show the videos which user has.
@@ -61,26 +66,6 @@
         var filename;
         $('#add').click(function() {
             $('#btn_file').click();
-        });
-        $('#upload').click(function() {
-            var myfile = $('#btn_file')[0].files[0];
-            var formdata = new FormData();
-            formdata.append('name', filename);
-            formdata.append('file', myfile)
-            $.ajax({
-                url: 'upload',
-                type: 'post',
-                processData: false,
-                contentType: false,
-                data: formdata,
-                success: function(data) {
-                    var href = window.location.href.trim().split('/')
-                    href = href.join('/') + "process/" + data
-
-                    window.location.href = href;
-                    console.log(data)
-                }
-            })
         });
         $('#btn_file').on("change", function() {
             var file = $('#btn_file').val();
@@ -93,9 +78,7 @@
             $('#succ').show();
         })
     </script>
-
-
-
+    <script src="{% static 'script/home.js' %}"></script>
 
     <!-- Bootstrap core JavaScript -->
     <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>

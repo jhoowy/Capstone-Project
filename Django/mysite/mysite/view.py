@@ -71,6 +71,29 @@ def upload(request):
 
     return HttpResponse('{}'.format(video_id))  # Here is just get the file from client to server, we can do the operation here.
 
+def upload_url(request):
+    url = request.POST.get('url')
+    yt = pytube.YouTube(url)
+            
+    # streams = yt.streams.filter(adaptive=True, file_extension='mp4').all()
+    # if len(streams) == 0:
+    #    streams = yt.streams.all()
+    
+    streams = yt.streams.all()
+    stream = streams[0]
+
+    video_id = secrets.token_hex(4)
+    filename = stream.default_filename
+    stream.download(settings.MEDIA_ROOT, video_id)
+
+    cap = cv2.VideoCapture(os.path.join(settings.MEDIA_ROOT, video_id + '.mp4'))
+    fps = cap.get(cv2.CAP_PROP_FPS)
+    cap.release()
+
+    video = Videos(video_id=video_id, total_frame=fps, file_name=filename, user=request.user)
+    video.save()
+
+    return HttpResponse('{}'.format(video_id))
 
 def signup(request):
     if request.method == "POST":
@@ -243,7 +266,11 @@ def search_download(request, vidId):
 
 def mypage(request):
     username = request.session.get('username')
+    user = request.user
+    video_list = Videos.objects.filter(user=user)
+    print(video_list)
+
     if username is not None:
-        return render(request, 'mypage.html')
+        return render(request, 'mypage.html', {'video_list' : video_list})
     else:
         return render(request, 'login.html')
