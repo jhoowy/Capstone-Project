@@ -31,7 +31,7 @@ def homepage(request):
         return render(request, 'homepage.html', {"logs": label})
     else:
         label = "<a class='loginlogo' href='/search'>Search</a><a class='loginlogo' href='/signup'>Sign Up</a><a class='loginlogo' href='/login'>Login</a>"
-        return render(request, 'homepage_login.html', {"logs": label})
+        return render(request, 'homepage.html', {"logs": label})
 
 
 def login(request):
@@ -227,7 +227,7 @@ def edit(request, video_id=None):
 
 def logout(request):
     request.session.flush()
-    return render(request, 'homepage_login.html')
+    return render(request, 'homepage.html')
 
 
 def search(request):

@@ -2,6 +2,7 @@ body {
     font: 16px/20px Arial, Helvetica, sans-serif;
     color: #000;
     min-width: 578px;
+    padding-top: 0px;
     /* 300 (item's min-width) is 45% of 578 */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -180,4 +181,20 @@ button {
     border-radius: 50px;
     text-align: center;
     box-shadow: 2px 2px 3px #999;
+}
+
+.topbar {
+    height: 56px;
+    width: 100%;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.logo {
+    margin-left: 96px;
+    height: 40px;
+    margin-top: 8px;
+}
+
+.nav {
+    height: 56px;
 }
