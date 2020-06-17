@@ -1,6 +1,6 @@
 function keyWordsearch() {
     $(".loader").show();
-    gapi.client.setApiKey("AIzaSyDhrvd3YifzhdGGr3QOz3_0W2eP8HRT2SQ");
+    gapi.client.setApiKey("AIzaSyBUwoEoNLZJEOf20a5ccpLCbysdlzHl0bQ");
     gapi.client.load('youtube', 'v3', function() {
         makeRequest();
     });
