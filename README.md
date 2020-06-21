@@ -19,7 +19,7 @@ python3 detect.py --cfg cfg/yolov3-spp.cfg --weights weights/yolov3-spp-ultralyt
 - RTSP stream:  `--source rtsp://170.93.143.139/rtplive/470011e600ef003a004ee33696235daa`
 - HTTP stream:  `--source http://wmccpinetop.axiscam.net/mjpg/video.mjpg`
 
-You can download our pretrained weight from [https://drive.google.com/open?id=1TT7FBzUuYIbwv2ug0Nnug1l7J9HDwueB](https://drive.google.com/open?id=1TT7FBzUuYIbwv2ug0Nnug1l7J9HDwueB)
+You can download our pretrained weight from [https://drive.google.com/file/d/1AR58mMSAZyAs0o_TMHBrdG9KSGQKQMZN/view?usp=sharing](https://drive.google.com/file/d/1AR58mMSAZyAs0o_TMHBrdG9KSGQKQMZN/view?usp=sharing)
 
 `download_video.py` download youtube video and mosaic video
 - Video: `download_video.py "https://www.youtube.com/watch?v=YJZqi7LAW3E" "video"`
